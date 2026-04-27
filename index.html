@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX Headline Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-3xl font-bold mb-4 text-center">Headline Analyzer</h1>
+        <p class="text-gray-600 mb-6 text-center">Analyze your headlines for SEO, clickability, and more.</p>
+        <textarea id="headlineInput" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" placeholder="Enter your headline here..."></textarea>
+        <button id="analyzeButton" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Analyze Headline</button>
+        <div id="results" class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200 hidden">
+            <h2 class="text-xl font-semibold mb-2">Analysis Results:</h2>
+            <p id="seoScore" class="mb-1"><strong class="font-medium">SEO:</strong> <span class="text-gray-700">...</span></p>
+            <p id="clickabilityScore" class="mb-1"><strong class="font-medium">Clickability:</strong> <span class="text-gray-700">...</span></p>
+            <p id="sentiment" class="mb-1"><strong class="font-medium">Sentiment:</strong> <span class="text-gray-700">...</span></p>
+            <p id="suggestions"><strong class="font-medium">Suggestions:</strong> <span class="text-gray-700">...</span></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('analyzeButton').addEventListener('click', async () => {
+            const headline = document.getElementById('headlineInput').value;
+            if (!headline) {
+                alert('Please enter a headline to analyze.');
+                return;
+            }
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('seoScore').querySelector('span').textContent = 'Analyzing...';
+            document.getElementById('clickabilityScore').querySelector('span').textContent = 'Analyzing...';
+            document.getElementById('sentiment').querySelector('span').textContent = 'Analyzing...';
+            document.getElementById('suggestions').querySelector('span').textContent = 'Analyzing...';
+            document.getElementById('results').classList.remove('hidden');
+
+            // In a real app, this would call a backend API.
+            // For this HTML-only demo, we'll simulate a response.
+            setTimeout(() => {
+                const seoScore = Math.floor(Math.random() * 50) + 50; // 50-99
+                const clickScore = Math.floor(Math.random() * 50) + 50;
+                const sentiment = seoScore > 75 ? 'Positive' : 'Neutral';
+                const suggestions = seoScore < 70 ? 'Try using power words and numbers.' : 'Excellent headline!';
+                
+                document.getElementById('seoScore').querySelector('span').textContent = `${seoScore}% Recommended`;
+                document.getElementById('clickabilityScore').querySelector('span').textContent = `${clickScore}% Excellent`;
+                document.getElementById('sentiment').querySelector('span').textContent = sentiment;
+                document.getElementById('suggestions').querySelector('span').textContent = suggestions;
+            }, 1500);
+        });
+
+        // Simulate Stripe integration for demonstration (real implementation would be more complex)
+        // window.onload = () => {
+        //     const stripe = Stripe('your_stripe_public_key'); // Replace with your actual public key
+        //     const checkoutButton = document.getElementById('checkoutButton'); // Hypothetical button
+        //     if (checkoutButton) {
+        //         checkoutButton.addEventListener('click', async () => {
+        //             try {
+        //                 const response = await fetch('/create-checkout-session', {
+        //                     method: 'POST',
+        //                     headers: { 'Content-Type': 'application/json' },
+        //                     body: JSON.stringify({ priceId: 'price_123' }) // Replace with your actual price ID
+        //                 });
+        //                 const session = await response.json();
+        //                 const result = await stripe.redirectToCheckout({ sessionId: session.id });
+        //                 if (result.error) alert(result.error.message);
+        //             } catch (error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     }
+        // };
+    </script>
+</body>
+</html>
